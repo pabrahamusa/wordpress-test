@@ -1,0 +1,4 @@
+[monitor] 
+52.12.209.108 
+[monitor:vars] 
+domain=devops-prakash 
