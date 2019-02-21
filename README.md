@@ -1,10 +1,16 @@
+############################################################
 # wordpress-test
 Sample Infra to create WordPress in AWS
 
+############################################################
 
-terraform init
-terraform plan
-terraform apply
+Run the following commands to create infra
+
+terraform init </br>
+
+terraform plan  </br>
+
+terraform apply  </br>
 
 We have to make sure Python, AWS cli, Ansible, Terraform all installed
 
