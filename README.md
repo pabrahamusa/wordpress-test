@@ -12,10 +12,9 @@ We have to make sure Python, AWS cli, Ansible, Terraform all installed
 [terraformuser@dockervm ~]$ sudo python --version
 Python 2.7.5
 
-# subscription-manager repos --enable rhel-server-rhscl-7-rpms
-# yum install python27-python-pip -y
-yum install python-devel
-# scl enable python27 bash
+subscription-manager repos --enable rhel-server-rhscl-7-rpms
+scl enable python27 bash
+
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 $ path-to-specific-python-binary/python get-pip.py`
 # pip install --upgrade pip
