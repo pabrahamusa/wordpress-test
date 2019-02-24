@@ -1,135 +1,139 @@
 ############################################################
-# wordpress-test
+### wordpress-test
 Sample Infra to create WordPress in AWS
 
 ############################################################
 
-Run the following commands to create infra
+## Run the following commands to create infra
 
-terraform init </br>
+* terraform init </br>
 
-terraform plan  </br>
+* terraform plan  </br>
 
-terraform apply  </br>
+* terraform apply  </br>
 
 We have to make sure Python, AWS cli, Ansible, Terraform all installed
 
-1) Make sure pip is installed
-[terraformuser@dockervm ~]$ sudo python --version
-Python 2.7.5
+## Make sure pip is installed
+    1. [terraformuser@dockervm ~]$ sudo python --version </br>
+         Python 2.7.5
 
-subscription-manager repos --enable rhel-server-rhscl-7-rpms
-scl enable python27 bash
+    2. subscription-manager repos --enable rhel-server-rhscl-7-rpms </br>
+    3. scl enable python27 bash  </br>
 
-$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-$ path-to-specific-python-binary/python get-pip.py`
-# pip install --upgrade pip
+    4. curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py </br>
 
-2) Install terraform
+    5. path-to-specific-python-binary/python get-pip.py </br>
 
-curl -O https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip
+    6. pip install --upgrade pip </br>
 
-sudo unzip terraform_0.11.2_linux_amd64.zip -d /bin/terraform/
-export PATH=$PATH:/bin/terraform
+## Install terraform
 
-3) Install AWSCLI
+     1. curl -O https://releases.hashicorp.com/terraform/0.11.2/terraform_0.11.2_linux_amd64.zip
 
-sudo pip install awscli --upgrade
+     2. sudo unzip terraform_0.11.2_linux_amd64.zip -d /bin/terraform/
+     3. export PATH=$PATH:/bin/terraform
 
-aws --version
-aws-cli/1.16.107 Python/2.7.5 Linux/3.10.0-862.el7.x86_64 botocore/1.12.97
+## Install AWSCLI
 
-4) Install Ansible
+     1. sudo pip install awscli --upgrade
 
-sudo yum install ansible
-ansible --version
-ansible 2.4.2.0
+     2. aws --version  </br>
+           aws-cli/1.16.107 Python/2.7.5 Linux/3.10.0-862.el7.x86_64 botocore/1.12.97
 
-5) set up keys
+## Install Ansible
 
-[terraformuser@dockervm ~]$ sudo ssh-keygen
-[sudo] password for terraformuser: 
-Generating public/private rsa key pair.
-Enter file in which to save the key (/root/.ssh/id_rsa): /root/.ssh/prakashssh
-Created directory '/root/.ssh'.
-Enter passphrase (empty for no passphrase): 
-Enter same passphrase again: 
+     1. sudo yum install ansible
+     2. ansible --version  </br>
+           ansible 2.4.2.0
 
-6) terraformuser@dockervm ~]$ sudo ssh-agent bash
-[root@dockervm terraformuser]# ssh-add /root/.ssh/prakashssh
-Identity added: /root/.ssh/prakashssh (/root/.ssh/prakashssh)
+## set up keys
 
-7) Create IAM user in AWS console
+1. [terraformuser@dockervm ~]$ sudo ssh-keygen
 
-user name terraformuser
-attach Administrator Policy
-create user
+     [sudo] password for terraformuser:  </br>
+           Generating public/private rsa key pair. </br>
+           Enter file in which to save the key (/root/.ssh/id_rsa): /root/.ssh/prakashssh </.br>
+           
+           Created directory '/root/.ssh'.  </br>
+              Enter passphrase (empty for no passphrase): </br>
+              Enter same passphrase again: </br>
 
-8) Download the access keys
+2. terraformuser@dockervm ~]$ sudo ssh-agent bash
 
-9) Go to Route53 
+3. [root@dockervm terraformuser]# ssh-add /root/.ssh/prakashssh </br>
+         Identity added: /root/.ssh/prakashssh (/root/.ssh/prakashssh)
+
+## Create IAM user in AWS console
+
+1. user name terraformuser
+2. attach Administrator Policy
+3. create user
+
+## Download the access keys
+
+## Go to Route53 </br>
    - make sure a domain name exists
 
-10) set up the access key id
+## set up the access key id
 
-root@dockervm prakash-ansible]# aws configure --profile awsprakash
-[root@dockervm prakash-ansible]# aws configure --profile awsprakash
-AWS Access Key ID [None]: xxxxxxxxxxxxxxxxxxxx
-AWS Secret Access Key [None]: xxxxxxxxxxxxxxxxxx
-Default region name [None]: us-west-2
-Default output format [None]: txt
-[root@dockervm prakash-ansible]# 
-
-[root@dockervm prakash-ansible]# aws ec2 describe-instances --profile awsprakash
-
-
-11) create reusable delegation set
-
-aws route53 create-reusable-delegation-set --caller-reference 1224 --profile awsprakash
-
-https://route53.amazonaws.com/2013-04-01/delegationset/xxxxxxxxxxxx
-DELEGATIONSET	1224	/delegationset/xxxxxxxxxxxxxx
-NAMESERVERS	ns-663.awsdns-18.net
-NAMESERVERS	ns-1751.awsdns-26.co.uk
-NAMESERVERS	ns-101.awsdns-12.com
-NAMESERVERS	ns-1034.awsdns-01.org
+1. root@dockervm prakash-ansible]# aws configure --profile awsprakash
+2. [root@dockervm prakash-ansible]# aws configure --profile awsprakash
+3. AWS Access Key ID [None]: xxxxxxxxxxxxxxxxxxxx
+4. AWS Secret Access Key [None]: xxxxxxxxxxxxxxxxxx
+5. Default region name [None]: us-west-2
+6. Default output format [None]: txt
+7. [root@dockervm prakash-ansible]# 
+8. [root@dockervm prakash-ansible]# aws ec2 describe-instances --profile awsprakash
 
 
-12) now go to AWS console click your domain ansd add/edit name servers
-put the above name servers there
-also go to hosted zones and put the same name servers
+## create reusable delegation set
 
-13) create all the terroaform files
-define the terraform variables
+ 1. aws route53 create-reusable-delegation-set --caller-reference 1224 --profile awsprakash </br>
 
-14) terraform init
-terraform plan
-
-This will just display green empty bits, this shows all is working
-
-now add all the terraform bits in main.tf
-and try terraform plam
-
-now add VOC code
-add router code
-etc..
-etc..
-
-finally format the code
-
-terraform fmt --diff
+https://route53.amazonaws.com/2013-04-01/delegationset/xxxxxxxxxxxx </br>
+DELEGATIONSET	1224	/delegationset/xxxxxxxxxxxxxx </br>
+NAMESERVERS	ns-663.awsdns-18.net </br>
+NAMESERVERS	ns-1751.awsdns-26.co.uk </br>
+NAMESERVERS	ns-101.awsdns-12.com </br>
+NAMESERVERS	ns-1034.awsdns-01.org </br>
 
 
-20) to find AWS redhat image id
-try seraching in AWS public images with query
-"Owner: 309956199498"
+## now go to AWS console click your domain ansd add/edit name servers </br>
+put the above name servers there </br>
+also go to hosted zones and put the same name servers </br>
 
-also make sure to put a single line inside userdata file
+## create all the terraform files </br>
+    define the terraform variables </br>
 
-[root@dockervm prakash-ansible]# ssh-agent bash
-[root@dockervm prakash-ansible]# ssh-add /root/.ssh/prakashssh
+## terraform init
+## terraform plan
 
-As we are using RedHat linux make sure to add the following
+This will just display green empty bits, this shows all is working </br>
+
+now add all the terraform bits in main.tf </br>
+and try terraform plan </br>
+
+now add VOC code </br>
+add router code </br>
+etc.. </br>
+etc.. </br>
+
+finally format the code </br>
+
+terraform fmt --diff </br>
+
+
+## to find AWS redhat image id </br>
+try seraching in AWS public images with query </br>
+"Owner: 309956199498" </br>
+
+also make sure to put a single line inside userdata file </br>
+
+[root@dockervm prakash-ansible]# ssh-agent bash </br>
+[root@dockervm prakash-ansible]# ssh-add /root/.ssh/prakashssh </br>
+
+## As we are using RedHat linux make sure to add the following
 a) Disable selinux on all instances while provisioning
 b) install aws cli on all instances as it will not come as default in RedHat
 
